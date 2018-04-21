@@ -1,0 +1,119 @@
+program tubesdapTERAKHIR;
+//RESERVASI TIKET PENERBANGAN
+uses crt;
+type
+        tiket = record
+        hari,jam, nama : string;
+        tgl,harga, kode, kursi : integer;
+end;
+var
+        i,j,x,n : integer;
+        penerbangan : array[0..88] of tiket;
+
+        procedure input1;
+        var
+                yt,yy : string;
+                brs : integer;
+                begin
+                 j := 22;
+                 i := 1;
+                 yt := 'Y';
+                 while ((i <= 4)  and (yt = 'Y')) do
+                 begin
+                    writeln('==========RESERVASI=========');
+                    readln;
+                    write('Masukan Nama anda : ');
+                    readln(penerbangan[i].nama);
+                    write('Masukan tanggal hari jam : ');
+                    readln(penerbangan[i].tgl,penerbangan[i].hari,penerbangan[i].jam);
+                    writeln('Kursi tempat duduk anda ',x);
+                    x := x-1;
+                    write('Apakah anda ingin pindah tempat kursi (Y/T) ? ');
+                    readln(yy);
+                    if (yy='Y') then
+                    begin
+                        write('Masukan baris kursi dan kolom : ');
+                        readln(brs);
+                        if (penerbangan[i].kursi <> 0) then
+                        begin
+                                  writeln('Kursi sudah terisi');
+                                  penerbangan[i].kursi := brs;
+                        end
+                        else
+                        begin
+                                penerbangan[i].kursi :=  x;
+                        end;
+                    end
+                    else
+                    begin
+                        penerbangan[i].kursi := x+1;
+                    end;
+                        penerbangan[i].kode := penerbangan[i-1].kode + 1;
+                    write('Apakah anda ingin menginputkan lagi (Y/T) : ');
+                    readln(yt);
+                    writeln('SELAMAT ! Kode Booking anda : ',penerbangan[i].kode);
+                    i:=i+1;
+                 end;
+                end;
+        procedure lihatbook;
+        var
+                book : integer;
+        begin
+                writeln('Masukan kode booking anda : ');
+                readln(book);
+                i := 1;
+                repeat
+                begin
+                if (book = penerbangan[i].kode) then
+                begin
+                        writeln('Nama penumpang : ',penerbangan[i].nama);
+                        writeln('Kursi          : ',penerbangan[i].kursi);
+                        writeln('No Booking     : ',penerbangan[i].kode);
+                        readln;
+                end;
+                i:= i+1;
+                end;
+                until ((book = penerbangan[i].kode) and (i<=88));
+        end;
+        procedure menu;
+        var
+                pil : integer;
+        begin
+                repeat
+                clrscr;
+                writeln('PROGRAM RESERVASI TIKET PESAWAT');
+                writeln('1. Input Data Penumpang');
+                writeln('2. Tampilkan Data Penumpang');
+                writeln('2. Edit Data Penumpang');
+                writeln('3. Hapus Data');
+                writeln('4. Cari Data Penumpang');
+                writeln('0. Exit');
+                writeln();
+                write('Masukan Pilihan Andaa : ');
+                readln(pil);
+                case (pil) of
+                1: Begin
+                        input1();
+                        readln;
+                   end;
+                2: Begin
+                        lihatbook();
+                        readln();
+                   end;
+                end;
+                until (pil=0);
+        end;
+        begin
+        clrscr;
+                n:=0;
+                menu();
+                readln;
+        end.
+{BEGIN
+        x := 88;
+        penerbangan[0].kode := 0;
+        penerbangan[1].kode := 0;
+        input1;
+        lihatbook;
+        readln;
+end.}
